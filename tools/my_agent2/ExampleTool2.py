@@ -1,7 +1,7 @@
 from agency_swarm.tools import BaseTool
 from pydantic import Field
 
-class MyCustomTool(BaseTool):
+class ExampleTool2(BaseTool):
     """
     A brief description of what the custom tool does.
     The docstring should clearly explain the tool's purpose and functionality.
@@ -25,12 +25,12 @@ class MyCustomTool(BaseTool):
         # do_something(self.example_field)
 
         # Return the result of the tool's operation
-        return "Result of MyCustomTool operation"
+        return "Result of ExampleTool2 operation"
 
 
 if __name__ == "__main__":
     # Create an instance of the custom tool
-    my_tool = MyCustomTool(example_field="example_value")
+    my_tool = ExampleTool2(example_field="example_value")
 
     # Test the tool
     result = my_tool.run()

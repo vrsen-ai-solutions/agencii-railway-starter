@@ -22,16 +22,20 @@ def create_endpoint(route, tool_class):
         
 def parse_all_tools():
     tools_folder = './tools'
-    tools = []
-    for filename in os.listdir(tools_folder):
-        if filename.endswith('.py'):
-            tool_path = os.path.join(tools_folder, filename)
-            tool_class = ToolFactory.from_file(tool_path)
-            tools.append(tool_class)
-    return tools
+    tools_dict = {}
+    for root, dirs, files in os.walk(tools_folder):
+        relative_path = os.path.relpath(root, tools_folder)
+        folder = relative_path if relative_path != '.' else 'root'
+        for filename in files:
+            if filename.endswith('.py'):
+                tool_path = os.path.join(root, filename)
+                tool_class = ToolFactory.from_file(tool_path)
+                tools_dict.setdefault(folder, []).append(tool_class)
+    return tools_dict
 
 # create endpoints for each file in ./tools
 tools = parse_all_tools()
+tools = [tool for tool_list in tools.values() for tool in tool_list]
 print(f"Tools found: {tools}")  # Debug print
 
 for tool in tools:
