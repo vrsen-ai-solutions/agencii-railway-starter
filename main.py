@@ -1,10 +1,13 @@
 import os
 from flask import Flask, request, jsonify
 from agency_swarm.tools import ToolFactory
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
-db_token = "<YOUR_TOKEN>" # https://www.random.org/passwords/?num=5&len=32&format=html&rnd=new
+db_token = os.getenv("DB_TOKEN")
 
 def create_endpoint(route, tool_class):
     @app.route(route, methods=['POST'], endpoint=tool_class.__name__)
