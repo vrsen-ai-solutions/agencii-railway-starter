@@ -4,7 +4,7 @@ from agency_swarm.tools import ToolFactory
 
 app = Flask(__name__)
 
-db_token = "123"
+db_token = "<YOUR_TOKEN>" # https://www.random.org/passwords/?num=5&len=32&format=html&rnd=new
 
 def create_endpoint(route, tool_class):
     @app.route(route, methods=['POST'], endpoint=tool_class.__name__)

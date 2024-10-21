@@ -6,3 +6,5 @@ itsdangerous==1.1.0
 Jinja2==2.11.3
 MarkupSafe==1.1.1
 Werkzeug==1.0.1
+inquirer==3.4.0
+pyperclip==1.9.0
