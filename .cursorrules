@@ -12,11 +12,13 @@ tools/
 │   ├── ToolNameA.py
 │   ├── ToolNameB.py
 │   ├── ToolNameC.py
+│   ├── instructions.md
 │   └── ...
 ├── agent_name2/
 │   ├── ToolNameD.py
 │   ├── ToolNameE.py
 │   ├── ToolNameF.py
+│   ├── instructions.md
 │   └── ...
 ├── ToolNameG.py
 └──...
@@ -24,9 +26,10 @@ requirements.txt
 main.py
 ```
 
-- Each tool can either be in a dedicated agent folder or in the root folder. User will provide clarification on where the tool should be placed. Otherwise, place the tool in the root of the `tools` folder.
+- Each tool can either be in a dedicated agent folder or in the root folder. If user requests tools to be created for a specific agent, place the tool in the dedicated agent folder. Otherwise, place the tool in the root of the `tools` folder.
+- Each agent folder must contain an `instructions.md` file, which contains the instructions for the agent. Only do this when adding or modifying tools in a specific agent folder.
 - Each tool file must be named exactly as the tool class name. For example, if the tool class name is `MyCustomTool`, the file must be named `MyCustomTool.py`.
-- All new requirements must be added to the `requirements.txt` file in the root of the project.
+- All new requirements must be added to the `requirements.txt` file in the root of the project. Do not modify the existing requirements.
 
 ## Instructions for Creating Tools
 
@@ -101,6 +104,34 @@ if __name__ == "__main__":
 ```
 
 Remember, each tool code snippet you create must be fully ready to use. It must not contain any placeholders or hypothetical examples.
+
+## Instructions for Creating instructions.md
+
+Each agent also needs to have an `instructions.md` file, which is the system prompt for the agent. Inside those instructions, you need to define the following:
+
+- **Agent Role**: A description of the role of the agent.
+- **Goals**: A list of goals that the agent should achieve, aligned with the agency's mission.
+- **Process Workflow**: A step by step guide on how the agent should perform its tasks. Each step must be aligned with the other agents in the agency, and with the tools available to this agent.
+
+Use the following template for the instructions.md file:
+
+```md
+# Agent Role
+
+A description of the role of the agent.
+
+# Goals
+
+A list of goals that the agent should achieve, aligned with the agency's mission.
+
+# Process Workflow
+
+1. Step 1
+2. Step 2
+3. Step 3
+```
+
+Instructions need to be created only when adding or modifying tools in a specific agent folder. The process workflow must also be aligned with all tools available to this agent, including specific tool names in the workflow.
 
 ## Final Notes
 
