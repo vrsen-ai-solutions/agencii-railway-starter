@@ -10,9 +10,11 @@ if __name__ == '__main__':
 
     if 'root' in tool_folder_names:
         tool_folder_names.remove('root')
-        root_tools = [tool.__name__ for tool in tools['root']]
+        # Store both the tool class and name for root tools
+        root_tool_mapping = {tool.__name__: tool for tool in tools['root']}
+        root_tool_names = list(root_tool_mapping.keys())
     else:
-        root_tools = []
+        root_tool_names = []
 
     questions = [
         inquirer.Checkbox(
@@ -26,11 +28,11 @@ if __name__ == '__main__':
         ),
     ]
 
-    if root_tools:
+    if root_tool_names:
         questions.insert(1, inquirer.Checkbox(
             'selected_root_tools',
             message="Select individual tools to include in the schema:",
-            choices=root_tools,
+            choices=root_tool_names,
         ))
 
     answers = inquirer.prompt(questions)
@@ -38,11 +40,16 @@ if __name__ == '__main__':
     server_url = answers['server_url']
     if not server_url.startswith("http"):
         server_url = "https://" + server_url
+
     selected_tools = []
+    # Add tools from selected folders
     for tool_folder_name in selected_tool_folder_names:
         selected_tools.extend(tools[tool_folder_name])
-    if root_tools:
-        selected_tools.extend(answers['selected_root_tools'])
+    
+    # Add selected root tools using the mapping
+    if root_tool_names and 'selected_root_tools' in answers:
+        selected_root_tools = [root_tool_mapping[name] for name in answers['selected_root_tools']]
+        selected_tools.extend(selected_root_tools)
 
     schema = ToolFactory.get_openapi_schema(selected_tools, server_url)
     print(schema)
