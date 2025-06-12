@@ -7,14 +7,14 @@ load_dotenv()
 
 app = Flask(__name__)
 
-db_token = os.getenv("DB_TOKEN")
+app_token = os.getenv("APP_TOKEN")
 
 def create_endpoint(route, tool_class):
     @app.route(route, methods=['POST'], endpoint=tool_class.__name__)
     def endpoint():
         print(f"Endpoint {route} called")  # Debug print
         token = request.headers.get("Authorization").split("Bearer ")[1]
-        if token != db_token:
+        if token != app_token:
             return jsonify({"message": "Unauthorized"}), 401
 
         try:
@@ -55,7 +55,7 @@ def tools_handler():
     except Exception:
         return jsonify({"message": "Unauthorized"}), 401
         
-    if token != db_token:
+    if token != app_token:
         return jsonify({"message": "Unauthorized"}), 401
 
     with app.request_context(request.environ):
